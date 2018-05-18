@@ -46,8 +46,7 @@ def getGuessedWord(lettersGuessed):
 
 def handleGuesses(letter, lettersGuessed):
     if letter in lettersGuessed:
-        print 'Oops! You have already guessed that letter:', getGuessedWord(
-            lettersGuessed)
+        print 'Oops! You have already guessed that letter:', getGuessedWord(lettersGuessed)
 
     elif letter in SECRETWORD:
         lettersGuessed.append(letter)
@@ -55,19 +54,16 @@ def handleGuesses(letter, lettersGuessed):
 
     else:
         lettersGuessed.append(letter)
-        print 'Oops! That letter is not in my word:', getGuessedWord(
-            lettersGuessed)
+        print 'Oops! That letter is not in my word:', getGuessedWord(lettersGuessed)
 
 
-def getAvailableLetters():
-    # 'abcdefghijklmnopqrstuvwxyz'
-    return string.ascii_lowercase
+def getAvailableLetters(lettersGuessed):
+    allLetters = string.ascii_lowercase  # 'abcdefghijklmnopqrstuvwxyz'
+
+    return allLetters.translate(None, ''.join(lettersGuessed))
 
 
 def hangman():
-    print SECRETWORD
-
-    guesses = GUESSES
     lettersGuessed = []
 
     print 'Welcome to the game, Hangman!'
@@ -75,19 +71,12 @@ def hangman():
     print 'And this word has', len(set(SECRETWORD)), 'different letters.'
     print '--------------'
 
-    while isWordGuessed(lettersGuessed) == False and guesses > 0:
-        print 'You have ', GUESSES, 'guesses left.'
-
-        # put it all in a single method (getAvailableLetters)
-        available = getAvailableLetters()
-        for letter in available:
-            if letter in lettersGuessed:
-                available = available.replace(letter, '')
-        print 'Available letters', available
+    while isWordGuessed(lettersGuessed) == False and GUESSES > 0:
+        print 'You have ', GUESSES - len(lettersGuessed), 'guesses left.'
+        print 'Available letters', getAvailableLetters(lettersGuessed)
 
         letter = raw_input('Please guess a letter: ')
 
-        # put it all in a single method (handleGuesses)
         handleGuesses(letter, lettersGuessed)
         print '------------'
 
