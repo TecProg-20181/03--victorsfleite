@@ -39,10 +39,7 @@ def isWordGuessed(secretWord, lettersGuessed):
 def getGuessedWord(secretWord, lettersGuessed):
     guessed = ''
     for letter in secretWord:
-        if letter in lettersGuessed:
-            guessed += letter
-        else:
-            guessed += '_'
+        guessed += letter if letter in lettersGuessed else '_'
 
     return guessed
 
