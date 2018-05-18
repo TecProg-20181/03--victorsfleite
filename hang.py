@@ -96,5 +96,6 @@ def hangman():
             print 'Sorry, you ran out of guesses. The word was', SECRETWORD, '.'
 
 
-SECRETWORD = chooseWord(loadWords())
-hangman()
+if __name__ == '__main__':
+    SECRETWORD = chooseWord(loadWords())
+    hangman()
