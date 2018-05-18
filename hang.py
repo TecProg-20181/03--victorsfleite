@@ -32,16 +32,31 @@ def chooseWord(wordList):
     return secretWord
 
 
-def isWordGuessed(secretWord, lettersGuessed):
-    return True if secretWord == getGuessedWord(secretWord, lettersGuessed) else False
+def isWordGuessed(lettersGuessed):
+    return True if SECRETWORD == getGuessedWord(lettersGuessed) else False
 
 
-def getGuessedWord(secretWord, lettersGuessed):
+def getGuessedWord(lettersGuessed):
     guessed = ''
-    for letter in secretWord:
+    for letter in SECRETWORD:
         guessed += letter if letter in lettersGuessed else '_'
 
     return guessed
+
+
+def handleGuesses(letter, lettersGuessed):
+    if letter in lettersGuessed:
+        print 'Oops! You have already guessed that letter:', getGuessedWord(
+            lettersGuessed)
+
+    elif letter in SECRETWORD:
+        lettersGuessed.append(letter)
+        print 'Good Guess: ', getGuessedWord(lettersGuessed)
+
+    else:
+        lettersGuessed.append(letter)
+        print 'Oops! That letter is not in my word:', getGuessedWord(
+            lettersGuessed)
 
 
 def getAvailableLetters():
@@ -49,18 +64,19 @@ def getAvailableLetters():
     return string.ascii_lowercase
 
 
-def hangman(secretWord):
+def hangman():
+    print SECRETWORD
 
     guesses = GUESSES
     lettersGuessed = []
 
     print 'Welcome to the game, Hangman!'
-    print 'I am thinking of a word that is', len(secretWord), 'letters long.'
-    print 'And this word has', len(set(secretWord)), 'different letters.'
+    print 'I am thinking of a word that is', len(SECRETWORD), 'letters long.'
+    print 'And this word has', len(set(SECRETWORD)), 'different letters.'
     print '--------------'
 
-    while isWordGuessed(secretWord, lettersGuessed) == False and guesses > 0:
-        print 'You have ', guesses, 'guesses left.'
+    while isWordGuessed(lettersGuessed) == False and guesses > 0:
+        print 'You have ', GUESSES, 'guesses left.'
 
         # put it all in a single method (getAvailableLetters)
         available = getAvailableLetters()
@@ -71,31 +87,16 @@ def hangman(secretWord):
 
         letter = raw_input('Please guess a letter: ')
 
-        # put it all in a single method (getGuessedWord)
-        if letter in lettersGuessed:
-            print 'Oops! You have already guessed that letter: ', getGuessedWord(
-                secretWord, lettersGuessed)
-
-        elif letter in secretWord:
-            lettersGuessed.append(letter)
-
-            print 'Good Guess: ', getGuessedWord(secretWord, lettersGuessed)
-
-        else:
-            guesses -= 1
-            lettersGuessed.append(letter)
-
-            print 'Oops! That letter is not in my word: ',  getGuessedWord(
-                secretWord, lettersGuessed)
-
+        # put it all in a single method (handleGuesses)
+        handleGuesses(letter, lettersGuessed)
         print '------------'
 
     else:
-        if isWordGuessed(secretWord, lettersGuessed) == True:
+        if isWordGuessed(lettersGuessed) == True:
             print 'Congratulations, you won!'
         else:
-            print 'Sorry, you ran out of guesses. The word was', secretWord, '.'
+            print 'Sorry, you ran out of guesses. The word was', SECRETWORD, '.'
 
 
-secretWord = chooseWord(loadWords())
-hangman(secretWord)
+SECRETWORD = chooseWord(loadWords())
+hangman()
