@@ -11,11 +11,9 @@ def loadWords():
     take a while to finish.
     """
     print "Loading word list from file..."
-    # inFile: file
+
     inFile = open(WORDLIST_FILENAME, 'r', 0)
-    # line: string
     line = inFile.readline()
-    # wordlist: list of strings
     wordlist = string.split(line)
 
     print "  ", len(wordlist), "words loaded."
@@ -63,15 +61,19 @@ def getAvailableLetters(lettersGuessed):
     return allLetters.translate(None, ''.join(lettersGuessed))
 
 
-def hangman():
-    lettersGuessed = []
-
+def printInitialMessage():
     print 'Welcome to the game, Hangman!'
     print 'I am thinking of a word that is', len(SECRETWORD), 'letters long.'
     print 'And this word has', len(set(SECRETWORD)), 'different letters.'
     print '--------------'
 
-    while isWordGuessed(lettersGuessed) == False and GUESSES > 0:
+
+def hangman():
+    lettersGuessed = []
+
+    printInitialMessage()
+
+    while isWordGuessed(lettersGuessed) == False and GUESSES - len(lettersGuessed) > 0:
         print 'You have ', GUESSES - len(lettersGuessed), 'guesses left.'
         print 'Available letters', getAvailableLetters(lettersGuessed)
 
