@@ -33,11 +33,7 @@ def chooseWord(wordList):
 
 
 def isWordGuessed(secretWord, lettersGuessed):
-    for letter in secretWord:
-        if letter not in lettersGuessed:
-            return False
-
-    return True
+    return True if secretWord == getGuessedWord(secretWord, lettersGuessed) else False
 
 
 def getGuessedWord(secretWord, lettersGuessed):
