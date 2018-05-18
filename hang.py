@@ -43,30 +43,32 @@ def isWordGuessed(secretWord, lettersGuessed):
 
     return True
 
+
 def getGuessedWord():
 
-     guessed = ''
+    guessed = ''
 
+    return guessed
 
-     return guessed
 
 def getAvailableLetters():
     import string
     # 'abcdefghijklmnopqrstuvwxyz'
     available = string.ascii_lowercase
 
-
     return available
+
 
 def hangman(secretWord):
 
     guesses = 8
     lettersGuessed = []
-    print 'Welcome to the game, Hangam!'
-    print 'I am thinking of a word that is', len(secretWord), ' letters long.'
+    print 'Welcome to the game, Hangman!'
+    print 'I am thinking of a word that is', len(secretWord), 'letters long.'
+    print 'And this word has', len(set(secretWord)), 'different letters.'
     print '-------------'
 
-    while  isWordGuessed(secretWord, lettersGuessed) == False and guesses >0:
+    while isWordGuessed(secretWord, lettersGuessed) == False and guesses > 0:
         print 'You have ', guesses, 'guesses left.'
 
         available = getAvailableLetters()
