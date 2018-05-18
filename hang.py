@@ -1,7 +1,7 @@
 import random
 import string
 
-WORDLIST_FILENAME = "palavras.txt"
+WORDLIST_FILENAME = 'palavras.txt'
 GUESSES_LIMIT = 8
 
 
@@ -10,13 +10,13 @@ def loadWords():
     Depending on the size of the word list, this function may
     take a while to finish.
     """
-    print "Loading word list from file..."
+    print 'Loading word list from file...'
 
     inFile = open(WORDLIST_FILENAME, 'r', 0)
     line = inFile.readline()
     wordlist = string.split(line)
 
-    print "  ", len(wordlist), "words loaded."
+    print '  ', len(wordlist), 'words loaded.'
 
     return wordlist
 
@@ -37,7 +37,7 @@ def isWordGuessed(lettersGuessed):
 def getGuessedWord(lettersGuessed):
     guessed = ''
     for letter in SECRETWORD:
-        guessed += letter if letter in lettersGuessed else '_'
+        guessed += letter if letter in lettersGuessed else ' _ '
 
     return guessed
 
@@ -78,7 +78,9 @@ def printInitialMessage():
 def hangman():
     lettersGuessed = []
 
-    while isWordGuessed(lettersGuessed) == False and getNumberOfGuesses(lettersGuessed) > 0:
+    printInitialMessage()
+
+    while not isWordGuessed(lettersGuessed) and getNumberOfGuesses(lettersGuessed) > 0:
         print 'You have ', getNumberOfGuesses(lettersGuessed), 'guesses left.'
         print 'Available letters', getAvailableLetters(lettersGuessed)
 
@@ -88,7 +90,7 @@ def hangman():
         print '------------'
 
     else:
-        if isWordGuessed(lettersGuessed) == True:
+        if isWordGuessed(lettersGuessed):
             print 'Congratulations, you won!'
         else:
             print 'Sorry, you ran out of guesses. The word was', SECRETWORD, '.'
