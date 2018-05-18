@@ -3,6 +3,7 @@ import string
 
 WORDLIST_FILENAME = "palavras.txt"
 
+
 def loadWords():
     """
     Depending on the size of the word list, this function may
@@ -15,8 +16,14 @@ def loadWords():
     line = inFile.readline()
     # wordlist: list of strings
     wordlist = string.split(line)
+
     print "  ", len(wordlist), "words loaded."
-    return random.choice(wordlist)
+
+    return wordlist
+
+
+def chooseWord(wordList):
+    return random.choice(wordList)
 
 
 def isWordGuessed(secretWord, lettersGuessed):
@@ -76,7 +83,7 @@ def hangman(secretWord):
                 if letter in lettersGuessed:
                     guessed += letter
                 else:
-                    guessed += '_ '
+                    guessed += '_'
 
             print 'Oops! You have already guessed that letter: ', guessed
         elif letter in secretWord:
@@ -87,11 +94,11 @@ def hangman(secretWord):
                 if letter in lettersGuessed:
                     guessed += letter
                 else:
-                    guessed += '_ '
+                    guessed += '_'
 
             print 'Good Guess: ', guessed
         else:
-            guesses -=1
+            guesses -= 1
             lettersGuessed.append(letter)
 
             guessed = getGuessedWord()
@@ -99,7 +106,7 @@ def hangman(secretWord):
                 if letter in lettersGuessed:
                     guessed += letter
                 else:
-                    guessed += '_ '
+                    guessed += '_'
 
             print 'Oops! That letter is not in my word: ',  guessed
         print '------------'
@@ -111,7 +118,5 @@ def hangman(secretWord):
             print 'Sorry, you ran out of guesses. The word was ', secretWord, '.'
 
 
-
-
-secretWord = loadWords().lower()
+secretWord = chooseWord(loadWords())
 hangman(secretWord)
