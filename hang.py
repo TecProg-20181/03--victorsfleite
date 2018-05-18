@@ -2,6 +2,7 @@ import random
 import string
 
 WORDLIST_FILENAME = "palavras.txt"
+GUESSES = 8
 
 
 def loadWords():
@@ -23,7 +24,12 @@ def loadWords():
 
 
 def chooseWord(wordList):
-    return random.choice(wordList)
+    secretWord = random.choice(wordList)
+    while len(secretWord) > GUESSES:
+        wordList.remove(secretWord)
+        secretWord = random.choice(wordList)
+
+    return secretWord
 
 
 def isWordGuessed(secretWord, lettersGuessed):
@@ -61,12 +67,14 @@ def getAvailableLetters():
 
 def hangman(secretWord):
 
-    guesses = 8
+    guesses = GUESSES
     lettersGuessed = []
+    numberOfDifferentLetters = len(set(secretWord))
+
     print 'Welcome to the game, Hangman!'
     print 'I am thinking of a word that is', len(secretWord), 'letters long.'
-    print 'And this word has', len(set(secretWord)), 'different letters.'
-    print '-------------'
+    print 'And this word has', numberOfDifferentLetters, 'different letters.'
+    print '--------------'
 
     while isWordGuessed(secretWord, lettersGuessed) == False and guesses > 0:
         print 'You have ', guesses, 'guesses left.'
