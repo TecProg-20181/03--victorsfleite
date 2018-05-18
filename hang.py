@@ -2,7 +2,7 @@ import random
 import string
 
 WORDLIST_FILENAME = "palavras.txt"
-GUESSES = 8
+GUESSES_LIMIT = 8
 
 
 def loadWords():
@@ -23,7 +23,7 @@ def loadWords():
 
 def chooseWord(wordList):
     secretWord = random.choice(wordList)
-    while len(secretWord) > GUESSES:
+    while len(set(secretWord)) > GUESSES_LIMIT:
         wordList.remove(secretWord)
         secretWord = random.choice(wordList)
 
@@ -40,6 +40,13 @@ def getGuessedWord(lettersGuessed):
         guessed += letter if letter in lettersGuessed else '_'
 
     return guessed
+
+
+def getNumberOfGuesses(lettersGuessed):
+    if not lettersGuessed:
+        return GUESSES_LIMIT
+
+    return GUESSES_LIMIT - len(set(lettersGuessed) - set(SECRETWORD))
 
 
 def handleGuesses(letter, lettersGuessed):
@@ -71,10 +78,8 @@ def printInitialMessage():
 def hangman():
     lettersGuessed = []
 
-    printInitialMessage()
-
-    while isWordGuessed(lettersGuessed) == False and GUESSES - len(lettersGuessed) > 0:
-        print 'You have ', GUESSES - len(lettersGuessed), 'guesses left.'
+    while isWordGuessed(lettersGuessed) == False and getNumberOfGuesses(lettersGuessed) > 0:
+        print 'You have ', getNumberOfGuesses(lettersGuessed), 'guesses left.'
         print 'Available letters', getAvailableLetters(lettersGuessed)
 
         letter = raw_input('Please guess a letter: ')
