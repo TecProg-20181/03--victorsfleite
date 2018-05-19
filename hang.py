@@ -1,5 +1,7 @@
 import random
 import string
+import sys
+import logging
 
 WORDLIST_FILENAME = 'palavras.txt'
 MAX_GUESSES = 8
@@ -55,15 +57,31 @@ class Words():
         Depending on the size of the word list, this function may
         take a while to finish.
         """
+        try:
+            inFile = open(WORDLIST_FILENAME, 'r', 0)
+        except IOError:
+            print 'Impossible to open the file!'
+            print 'The file', WORDLIST_FILENAME, 'doesn\'t exist!'
+            sys.exit(0)
+
         print 'Loading word list from file...'
 
-        inFile = open(WORDLIST_FILENAME, 'r', 0)  # validate
-        line = inFile.readline()  # validate
-        self.wordlist = string.split(line)  # validate
+        line = inFile.readline()
+
+        if not line:
+            print 'Impossible to read from file!'
+            print 'The file', WORDLIST_FILENAME, 'doesn\'t have any words!'
+            sys.exit(0)
+
+        self.wordlist = string.split(line)
 
         print '  ', len(self.wordlist), 'words loaded.'
 
         self.SECRET_WORD = self.chooseWord()
+
+        if not self.SECRET_WORD:
+            print 'No word chosen!'
+            sys.exit(0)
 
     def chooseWord(self):
         words = self.wordlist
@@ -109,6 +127,7 @@ class Letters():
         # validate params
         # validate method return on callings
         letter = self.getInputLetter()
+        assert letter == None, 'error jeremias'
 
         if letter in self.lettersGuessed:
             print 'Oops! You have already guessed that letter:', words.getGuessedWord(self.lettersGuessed)
